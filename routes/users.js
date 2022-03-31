@@ -23,8 +23,7 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-
-/* create users listing. */
+/* leer users listing. */
 router.post('/', async function(req, res, next) {
   const {email, username,password}=req.body;
   try {
@@ -34,7 +33,6 @@ router.post('/', async function(req, res, next) {
     console.log(error);
   }
 });
-
 
 
 /* DELETE users listing. */

@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 /* GET home page. */
 router.get('/hello', function(req, res, next) {
-  res.json( { title: 'Express' });
+  res.json({ title: 'Express' });
 });
 
 module.exports = router;
