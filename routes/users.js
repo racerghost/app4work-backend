@@ -72,6 +72,17 @@ router.get('/:userId/applications', async function(req, res, next) {
   }
 });
 
+/* GET single application*/
+router.get('/application/:applicationId', async function(req, res, next) {
+  const { applicationId } = req.params;
+  try {
+    const application = await UserApplication.findbyId(applicationId).populate(['userId','offerId']);
+    res.json(application);
+  }catch(error){
+    console.log(error);
+  }
+});
+
 /* POST create new user application */
 router.post('/:userId/:offerId', async function(req, res, next) {
   const { userId, offerId } = req.params;
