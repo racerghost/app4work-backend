@@ -35,7 +35,7 @@ router.post('/', async function(req, res, next) {
 });
 
 
-/* DELETE users applicationlisting. */
+/* DELETE users application listing. */
 router.delete('/delete/:id', async function(req, res, next) {
   const {id} = req.params;
   try {

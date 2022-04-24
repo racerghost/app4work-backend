@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Company = require('../models/Company.model')
-/* GET users listing. */
+/* GET companies listing. */
 
 router.get('/', async function(req, res, next) {
   try {
