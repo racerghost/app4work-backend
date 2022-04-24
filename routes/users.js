@@ -23,11 +23,11 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-/* leer users listing. */
+/* add user */
 router.post('/', async function(req, res, next) {
-  const {email, username,password}=req.body;
+  const {email,password,username,fname,surname,birth,gender,location,workArea,specificArea,salary,tags}=req.body;
   try {
-    const createdUser=await User.create({email,username,password})
+    const createdUser=await User.create({email,password,username,fname,surname,birth,gender,location,workArea,specificArea,salary,tags})
     res.json(createdUser);
   }catch(error){
     console.log(error);
@@ -51,9 +51,9 @@ router.delete('/delete/:id', async function(req, res, next) {
 /* EDIT user. */
 router.put('/edit/:id', async function(req, res, next) {
   const { id } = req.params;
-  const { email, username, password } = req.body;
+  const { email,password,username,fname,surname,birth,gender,location,workArea,specificArea,salary,tags } = req.body;
   try {
-    const editedUser = await User.findByIdAndUpdate(id, { email, username, password },{new:true});
+    const editedUser = await User.findByIdAndUpdate(id, { email,password,username,fname,surname,birth,gender,location,workArea,specificArea,salary,tags },{new:true});
     res.json(editedUser);
   }catch(error){
     console.log(error);
