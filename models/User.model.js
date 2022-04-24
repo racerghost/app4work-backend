@@ -14,7 +14,7 @@ const userSchema = new Schema({
   workArea: { type: String, required: true },
   specificArea: { type: String, required: true },
   salary: { type: String, required: true },
-  tags: { type: Array, required: false }
+  tags: { type: Array, required: false },
 });
 
 

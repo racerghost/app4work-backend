@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User.model')
+const User = require('../models/User.model');
+const UserApplication = require('../models/UserApplication.model');
 /* GET users listing. */
 
 router.get('/', async function(req, res, next) {
@@ -44,7 +45,6 @@ router.delete('/delete/:id', async function(req, res, next) {
   }catch(error){
     console.log(error);
   }
-
 });
 
 
@@ -59,4 +59,40 @@ router.put('/edit/:id', async function(req, res, next) {
     console.log(error);
   }
 });
+
+
+/* GET user's applications*/
+router.get('/:userId/applications', async function(req, res, next) {
+  const { userId } = req.params;
+  try {
+    const applications = await UserApplication.find({ userId: userId }).populate(['userId','offerId']);
+    res.json(applications);
+  }catch(error){
+    console.log(error);
+  }
+});
+
+/* POST create new user application */
+router.post('/:userId/:offerId', async function(req, res, next) {
+  const { userId, offerId } = req.params;
+  try {
+    const createdApplication = await UserApplication.create({ userId: userId, offerId: offerId });
+    res.json(createdApplication);
+  }catch(error){
+    console.log(error);
+  }
+});
+
+/*DELETE job application*/
+router.delete('/applications/delete/:applicationId', async function(req, res, next) {
+  const {applicationId} = req.params;
+  try {
+    const deletedApplication = await UserApplication.findByIdAndDelete(applicationId);
+    res.json(deletedApplication);
+  }catch(error){
+    console.log(error);
+  }
+
+});
+
 module.exports = router;

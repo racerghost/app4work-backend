@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const offerSchema = new Schema({
-  companyId: { type: String, required: true },
+  companyId: {type: mongoose.Schema.ObjectId, ref: 'Company'},
   workArea: { type: String, required: true },
   specificArea: { type: String, required: true} ,
   salary: { type: String, required: true },
-  info: { type: Array, required: false },
   active: { type: Boolean, required: true },
-  publicationDate: { type: Date, required: true }
+  publicationDate: { type: Date, required: true, default: Date.now() },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
 });
 
 module.exports = model('Offers', offerSchema);
