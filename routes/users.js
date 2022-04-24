@@ -103,7 +103,6 @@ router.delete('/applications/delete/:applicationId', async function(req, res, ne
   }catch(error){
     console.log(error);
   }
-
 });
 
 module.exports = router;
