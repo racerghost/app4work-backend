@@ -1,5 +1,5 @@
 require("dotenv/config"); //para que coja las constiables del fichero de .env
-require("./db");            //para que inicialize el fichero de la base de datos
+require("./db");            //para que inicialice el fichero de la base de datos
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');

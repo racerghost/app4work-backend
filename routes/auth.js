@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const Company = require("../models/Company.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 const router = express.Router();
 const saltRounds = 10;
@@ -24,16 +24,6 @@ router.post("/signupUser", (req, res, next) => {
     res.status(400).json({ message: "Provide a valid email address." });
     return;
   }
-
-  // Use regex to validate the password format
-  // const passwordRegex = /(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,}/;
-  // if (!passwordRegex.test(password)) {
-  //   res.status(400).json({
-  //     message:
-  //       "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
-  //   });
-  //   return;
-  // }
 
   // Check the users collection if a user with the same email already exists
   User.findOne({ email })
@@ -62,6 +52,7 @@ router.post("/signupUser", (req, res, next) => {
       res.status(500).json({ message: "Internal Server Error" });
     });
 });
+
 // POST  /auth/signupCompany
 router.post("/signupCompany", (req, res, next) => {
   const { email, password, username, name, location, workArea, size} = req.body;
@@ -128,7 +119,6 @@ router.post("/signupCompany", (req, res, next) => {
 // POST  /auth/loginUSer
 router.post("/loginUser", (req, res, next) => {
   const { email, password } = req.body;
-  console.log("hols");
   // Check if email or password are provided as empty string
   if (email === "" || password === "") {
     res.status(400).json({ message: "Provide email and password." });
@@ -149,10 +139,10 @@ router.post("/loginUser", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, name } = foundUser;
+        const { _id, email, username } = foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, name };
+        const payload = { _id, email, username };
 
         // Create and sign the token
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -171,9 +161,9 @@ router.post("/loginUser", (req, res, next) => {
 
 });
 
+// POST  /auth/loginCompany
 router.post("/loginCompany", (req, res, next) => {
   const { email, password } = req.body;
-  console.log("hols");
   // Check if email or password are provided as empty string
   if (email === "" || password === "") {
     res.status(400).json({ message: "Provide email and password." });
@@ -214,17 +204,15 @@ router.post("/loginCompany", (req, res, next) => {
     .catch((err) => res.status(500).json({ message: "Internal Server Error" }));
 });
 
-
-
 // GET  /auth/verify
-// router.get("/verify", isAuthenticated, (req, res, next) => {
-//   // If JWT token is valid the payload gets decoded by the
-//   // isAuthenticated middleware and made available on `req.payload`
-//   console.log(`req.payload`, req.payload);
+router.get("/verify", isAuthenticated, (req, res, next) => {
+  // If JWT token is valid the payload gets decoded by the
+  // isAuthenticated middleware and made available on `req.payload`
+  console.log(`req.payload`, req.payload);
 
-//   // Send back the object with user data
-//   // previously set as the token payload
-//   res.status(200).json(req.payload);
-// });
+  // Send back the object with user data
+  // previously set as the token payload
+  res.status(200).json(req.payload);
+});
 
 module.exports = router;

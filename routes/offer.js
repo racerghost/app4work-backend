@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Offer = require('../models/Offers.model')
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 /* GET offers listing. */
 
 router.get('/', async function(req, res, next) {
@@ -24,8 +25,9 @@ router.get('/:id', async function(req, res, next) {
 });
 
 /* add offer */
-router.post('/', async function(req, res, next) {
-  const {companyId, workArea, specificArea, salary, active, publicationDate, title, description}=req.body;
+router.post('/', isAuthenticated, async function (req, res, next) {
+  const companyId = req.payload._id;
+  const {workArea, specificArea, salary, active, publicationDate, title, description}=req.body;
   try {
     const createdOffer=await Offer.create({companyId, workArea, specificArea, salary, active, publicationDate, title, description});
     res.json(createdOffer);

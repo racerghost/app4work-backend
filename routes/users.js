@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User.model');
 const UserApplication = require('../models/UserApplication.model');
-/* GET users listing. */
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 
+/* GET users listing. */
 router.get('/', async function(req, res, next) {
   try {
     const getusers=await User.find({})
@@ -24,7 +25,7 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-/* add user */
+/* POST add user */
 router.post('/', async function(req, res, next) {
   const {email,password,username,fname,surname,birth,gender,location,workArea,specificArea,salary,tags}=req.body;
   try {
@@ -62,8 +63,8 @@ router.put('/edit/:id', async function(req, res, next) {
 
 
 /* GET user's applications*/
-router.get('/:userId/applications', async function(req, res, next) {
-  const { userId } = req.params;
+router.get('/myapplications', isAuthenticated, async function (req, res, next) {
+  const userId = req.payload._id;
   try {
     const applications = await UserApplication.find({ userId: userId }).populate(['userId','offerId']);
     res.json(applications);
@@ -84,8 +85,9 @@ router.get('/application/:applicationId', async function(req, res, next) {
 });
 
 /* POST create new user application */
-router.post('/:userId/:offerId', async function(req, res, next) {
-  const { userId, offerId } = req.params;
+router.post('/:offerId', isAuthenticated, async function (req, res, next) {
+  const userId = req.payload._id;
+  const { offerId } = req.params;
   try {
     const createdApplication = await UserApplication.create({ userId: userId, offerId: offerId });
     res.json(createdApplication);
@@ -96,7 +98,7 @@ router.post('/:userId/:offerId', async function(req, res, next) {
 
 /*DELETE job application*/
 router.delete('/applications/delete/:applicationId', async function(req, res, next) {
-  const {applicationId} = req.params;
+  const { applicationId } = req.params;
   try {
     const deletedApplication = await UserApplication.findByIdAndDelete(applicationId);
     res.json(deletedApplication);
