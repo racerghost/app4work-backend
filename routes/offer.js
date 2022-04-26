@@ -4,11 +4,12 @@ const Offer = require('../models/Offers.model')
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 /* GET offers listing. */
 
-router.get('/', async function(req, res, next) {
+router.get("/", isAuthenticated, async function (req, res, next) {
+  const companyId = req.payload._id;
   try {
-    const offers = await Offer.find({}).populate('companyId');
+    const offers = await Offer.find({companyId:companyId}).populate("companyId");
     res.json(offers);
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
 });

@@ -73,6 +73,7 @@ router.get('/myapplications', isAuthenticated, async function (req, res, next) {
   }
 });
 
+
 /* GET single application*/
 router.get('/application/:applicationId', async function(req, res, next) {
   const { applicationId } = req.params;
