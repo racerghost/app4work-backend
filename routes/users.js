@@ -14,6 +14,16 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+/* GET user's applications*/
+router.get('/myapplications', isAuthenticated, async function (req, res, next) {
+  try {
+    const applications = await UserApplication.find({ userId: req.payload._id }).populate('userId').populate('offerId');
+    res.json(applications);
+  }catch(error){
+    console.log(error);
+  }
+});
+
 /* GET single user listing. */
 router.get('/:id', async function(req, res, next) {
   const {id}= req.params;
@@ -56,18 +66,6 @@ router.put('/edit/:id', async function(req, res, next) {
   try {
     const editedUser = await User.findByIdAndUpdate(id, { email,password,username,fname,surname,birth,gender,location,workArea,specificArea,salary,tags },{new:true});
     res.json(editedUser);
-  }catch(error){
-    console.log(error);
-  }
-});
-
-
-/* GET user's applications*/
-router.get('/myapplications', isAuthenticated, async function (req, res, next) {
-  const userId = req.payload._id;
-  try {
-    const applications = await UserApplication.find({ userId: userId }).populate(['userId','offerId']);
-    res.json(applications);
   }catch(error){
     console.log(error);
   }
