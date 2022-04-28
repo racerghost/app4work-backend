@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Offer = require('../models/Offers.model')
+const Offer = require('../models/Offers.model');
+const UserApplication = require("../models/UserApplication.model");
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 /* GET offers listing. */
 
@@ -15,6 +16,16 @@ router.get("/", isAuthenticated, async function (req, res, next) {
   }
 });
 
+/* GET offer applications listing. */
+router.get('/applications/:id', async function (req, res, next) {
+  try {
+    const { id } = req.params;
+    const userApplications = await UserApplication.find({offerId: id}).populate("userId");
+    res.json(userApplications);
+  } catch (error) {
+    console.log(error);
+  }
+});
 router.get("/all", async function (req, res, next) {
   try {
     const offers = await Offer.find().populate("companyId");
@@ -23,6 +34,7 @@ router.get("/all", async function (req, res, next) {
     console.log(error);
   }
 });
+
 
 /* GET single offer listing. */
 router.get('/:id', async function(req, res, next) {

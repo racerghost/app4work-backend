@@ -84,11 +84,15 @@ router.get('/application/:applicationId', async function(req, res, next) {
 });
 
 /* POST create new user application */
-router.post('/:offerId', isAuthenticated, async function (req, res, next) {
+router.post('/:offerId/:companyId', isAuthenticated, async function (req, res, next) {
   const userId = req.payload._id;
-  const { offerId } = req.params;
+  const { offerId, companyId } = req.params;
   try {
-    const createdApplication = await UserApplication.create({ userId: userId, offerId: offerId });
+    const createdApplication = await UserApplication.create({
+      userId: userId,
+      offerId: offerId,
+      companyId: companyId,
+    });
     res.json(createdApplication);
   }catch(error){
     console.log(error);
