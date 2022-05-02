@@ -18,9 +18,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('trust proxy', 1);
-app.use(cors({
-  origin: ['http://localhost:3000']
-}));
+app.use(
+  cors({
+    origin: ["https://app4work-front.netlify.app"],
+  })
+);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
