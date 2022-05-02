@@ -20,11 +20,11 @@ app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(
   cors({
-    origin: "https://app4work-front.netlify.app",
+    origin: "*",
   })
 );
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://app4work-front.netlify.app");
+  res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
