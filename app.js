@@ -22,15 +22,14 @@ app.set('trust proxy', 1);
 app.use(
   cors({
     origin: "https://app4work-front.netlify.app",
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-    header: "Access-Control-Allow-Origin: *",
   })
 );
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header( "methods" ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]);
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', usersRouter);
 app.use('/company', companyRouter);
