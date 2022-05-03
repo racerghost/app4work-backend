@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(
   cors({
-    origin: "*",
+    origin: "https://app4work-front.netlify.app",
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
   })
 );
