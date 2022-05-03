@@ -30,8 +30,9 @@ app.set('trust proxy', 1);
 // });
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: true,
   optionsSuccessStatus: 200, // For legacy browser support
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
