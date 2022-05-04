@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors');
+// const cors = require('cors');
 
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
@@ -19,17 +19,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('trust proxy', 1);
-app.use(
-  cors({
-    origin: "https://app4work-front.netlify.app",
-  })
-);
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header( "methods" ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]);
-  next();
-});
+// app.use(
+//   cors({
+//     origin: "*",
+//   })
+// );
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.header( "methods" ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]);
+//   next();
+// });
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', usersRouter);
 app.use('/company', companyRouter);
