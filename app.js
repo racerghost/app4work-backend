@@ -10,7 +10,7 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const companyRouter = require('./routes/company');
 const offerRouter = require('./routes/offer');
-const { header } = require("express/lib/request");
+const { header } = require("./express/lib/request");
 
 const app = express();
 
@@ -24,12 +24,12 @@ app.use(
     origin:'https://app4work-front.netlify.app',
   })
 );
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   res.header( "methods" ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]);
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header( "methods" ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]);
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', usersRouter);
 app.use('/company', companyRouter);
