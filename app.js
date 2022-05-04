@@ -10,7 +10,7 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const companyRouter = require('./routes/company');
 const offerRouter = require('./routes/offer');
-const { header } = require("./express/lib/request");
+const { header } = require("express/lib/request");
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(
   cors({
-    origin:'https://app4work-front.netlify.app',
+    origin:'*',
   })
 );
 app.use(function (req, res, next) {
